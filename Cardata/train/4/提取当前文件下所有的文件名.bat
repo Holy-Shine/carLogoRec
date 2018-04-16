@@ -1,0 +1,1 @@
+DIR *.*  /B >train_Honda.txt
