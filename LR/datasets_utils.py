@@ -2,8 +2,15 @@ import h5py
 import numpy as np
 
 
+
+def load_test_data():
+    datasets = h5py.File("../carDatasets.h5")
+    test_X = np.array(datasets['test_X'])
+    test_Y = np.array(datasets['test_Y'])
+    datasets.close()
+    return test_X, test_Y
 # 500 samples for 100 per class
-def load_test_data(positive=0):
+def load_test_data_by_pos(positive=0):
     '''
     package datasets according to positive
 

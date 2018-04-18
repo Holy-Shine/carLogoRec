@@ -1,5 +1,14 @@
 # carLogoRec
-### opencv自带BP网络+Hog特征识别车标
+
+2018.4.18已更新逻辑回归模块
+
+## 模块列表
+
+- Opencv自带BP网络+HOG
+- Logistic Regression  content/LR
+
+## 1. opencv自带BP网络+Hog特征识别车标
+
 opencv2.4.11：使用HOG特征进行车标分类识别
 
 >工程基于本人早期课程设计，记录在博客园博客中---[使用OpenCV实现车标识别](http://logwhen.cn/2018/01/16/%E4%BD%BF%E7%94%A8OpenCV%E5%AE%9E%E7%8E%B0%E8%BD%A6%E6%A0%87%E8%AF%86%E5%88%AB.html)。 Github上的版本是重构后的代码。
@@ -46,11 +55,11 @@ opencv的配置这里就不再赘述了。简单讲下工程的情况。
 全局变量设定：
 
 	#define N_SAMPLE 1000
-    #define F_NUM   1764 
-    #define CLASSNUM 5
+	#define F_NUM   1764 
+	#define CLASSNUM 5
 	float Data[N_SAMPLE][F_NUM];      // 数据存放
-    float Label[N_SAMPLE][CLASSNUM]   // 标签存放
- 
+	float Label[N_SAMPLE][CLASSNUM]   // 标签存放
+
 训练网络输入是两个二维矩阵，第一个矩阵是数据矩阵（第一维是样本个数`N_SAMPLE`,第二维是每个样本的特征向量是，宽度为`F_NUM`），第二个矩阵是标签矩阵，对应每个样本，都有一个类别标签，如果是第一类，则它的标签向量为`1,0,0,0,0`(本例是5维)。  
 这里主要提一下数据矩阵的第二维是怎么确定的。  
 >每个样本的特征向量即每张图片的HOG特征。HOG特征是一个一维向量。
@@ -62,12 +71,12 @@ opencv的配置这里就不再赘述了。简单讲下工程的情况。
 
 ##### 装载过程
 	read trainpath.txt;   // 读取路径文件
-    for each trainImg in trainpath.txt :
-    	getHOG(trainImg)   // 获取HOG特征
-        getLabel according to its path 
-        put its hog into Data[][]
-        put its label into Label[][]
-     
+	for each trainImg in trainpath.txt :
+		getHOG(trainImg)   // 获取HOG特征
+	    getLabel according to its path 
+	    put its hog into Data[][]
+	    put its label into Label[][]
+
 #### 2.定义网络+训练网络
 对opencv自带网络类进行了简单的封装，如下：
 ![捕获.PNG](https://i.loli.net/2018/03/02/5a98dbd8c07a5.png)
@@ -76,5 +85,45 @@ opencv的配置这里就不再赘述了。简单讲下工程的情况。
 #### 3.测试网络
 读取测试文件，输入网络，获得输出。
 >输入为每次一个图片，所以输入的二维矩阵为`test[1][F_NUM]`。`myNerualNetwork().predict(img)`获得一个预测值，可以跟实际值(分析文件路径名获得)做对比，得到分类正确率。  
+
+## 2. Logistic Regression
+
+#### 1. 思想
+
+逻辑回归基于简单的代数思想：
+$$
+\notag \hat y=\sigma(W^TX+b)
+$$
+对于多分类，运用 one-vs-rest的思想，可以看成多个二分类问题，例如，对于一个5分类问题，训练5个分类器，对于每个分类器，将1个分类作为正样本，剩余类作为负样本，这样，对于每个分类器来说，就是计算一个属于当前分类的概率。5个分类器的最终结果是：
+$$
+\notag [\hat y_0,\hat y_1,\hat y_2,\hat y_3 \hat y_4]
+$$
+则最终分类为 max_value_index。
+
+#### 2. 代码
+
+代码使用python完成。
+
+> datasets_utils.py
+
+完成两个任务.
+
+- 根据正样本索引号完成训练集读取`load_train_data`
+- 读取测试集 `load_test_set`
+
+> lr.py
+
+LR分类器构建与识别，函数层级如下
+
+```python
+lr_model() # 构建1个lr分类器
+|---|intial_parameters()  # 初始化模型参数
+    |optimize()  # 优化参数，即训练
+    |---|propagate() # 梯度下降传播梯度
+estimate()  # 评估模型
+|---|predict() # 测试测试集
+```
+
+
 
 最后感谢大家的耐心，能看完这个简单的document。如果这个简单的工程对你有帮助，还望大家不吝惜右上角的star喔

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pylab
 import scipy
 from PIL import Image
-from datasets_utils import load_train_data,load_test_data
+from datasets_utils import load_train_data,load_test_data, load_test_data_by_pos
 
 ## one-vs-rest
 
@@ -86,19 +86,37 @@ def predict(w,b, X):
 
     A = sigmoid(np.dot(w.T,X)+b)
     Y_prediction = np.round(A)
+    print(Y_prediction)
     return Y_prediction
 
 def estimate(test_X, test_Y, params):
-    w = params['w']
-    b = params['b']
-    Y_prediction = predict(w,b,test_X)
-    print("test acc:{} %".format(100-np.mean(np.abs(Y_prediction-test_Y))*100))
+    m = test_X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    Y_results = []  # 5 x 1 x m
+    for param in params:
+        w = param['w']
+        b = param['b']
+        Y_results.append(predict(w,b,test_X))
+    for n in range(m):
+        max_p = 0
+        max_i = 0
+        for index in range(5):
+            if Y_results[index][0][n]>max_p:
+                max_p=Y_results[index][0][n]
+                max_i=index
+        Y_prediction[0,n]=max_i
+    wrong = list(list(map(lambda x,y:x==y, Y_prediction, test_Y))[0]).count(0)
+
+    print("test acc:{} %".format(100-wrong/m*100))
 
 if __name__=='__main__':
-    #print("\n".join([" "*(n-i)+"*"*(2*i-1) for i in range(1,n+1)]+[" "*i+"*"*((n-i)*2-1) for i in range(1, n)]))
-    train_X,train_Y=load_train_data(0)
-    train_X = train_X/255
-    params=lr_model(train_X, train_Y,print_cost=True)
-    test_X, test_Y = load_test_data(0)
+    ## one-vs-rest  n classiffer
+    params=[]
+    for positive in range(5):
+        train_X, train_Y = load_train_data(positive)
+        train_X = train_X / 255
+        print("model:%d"%positive)
+        params.append(lr_model(train_X, train_Y,print_cost=True))
+    test_X, test_Y = load_test_data()
     test_X/=255
     estimate(test_X, test_Y, params)
