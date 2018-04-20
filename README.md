@@ -1,11 +1,13 @@
 # carLogoRec
 
 2018.4.18已更新逻辑回归模块
+2018.4.20已更新OpenCV自带BP网路模块
 
 ## 模块列表
 
 - Opencv自带BP网络+HOG
 - Logistic Regression  content/LR
+- 全局函数
 
 ## 1. opencv自带BP网络+Hog特征识别车标
 
@@ -115,15 +117,31 @@ $$
 
 LR分类器构建与识别，函数层级如下
 
-```python
-lr_model() # 构建1个lr分类器
-|---|intial_parameters()  # 初始化模型参数
-    |optimize()  # 优化参数，即训练
-    |---|propagate() # 梯度下降传播梯度
-estimate()  # 评估模型
-|---|predict() # 测试测试集
-```
-
-
+>lr_model() #构建1个lr分类器
+>
+>>initial_parameters() 	# 初始化模型参数
+>>
+>>optimize() 			#优化
+>>
+>>> propagate() 		   # 梯度下降
+>
+>estimate()	# 评估模型
+>
+>> predict()   # 测试测试集
 
 最后感谢大家的耐心，能看完这个简单的document。如果这个简单的工程对你有帮助，还望大家不吝惜右上角的star喔
+
+
+
+
+
+## 全局函数
+
+> dataModel.py
+
+根据`Cardata/`生成 `h5`数据集，该数据集包含4个部分
+
+- `data['train_X']`：训练集
+- `data['train_Y']`：训练集标签
+- `data['test_X']`：测试集
+- `data['test_Y']`：测试集标签
