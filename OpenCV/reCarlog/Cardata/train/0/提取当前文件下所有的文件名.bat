@@ -1,1 +1,0 @@
-DIR *.*  /B >train_Citroen.txt

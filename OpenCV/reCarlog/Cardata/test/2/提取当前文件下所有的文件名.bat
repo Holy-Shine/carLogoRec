@@ -1,1 +1,0 @@
-DIR *.*  /B >test_FAW.txt
