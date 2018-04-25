@@ -113,7 +113,6 @@ int myNeuralNetwork::predict(Mat &img) {
 }
 
 int main() {
-
 #ifdef TRAIN
 	ifstream in("trainpath.txt");
 	string s;
@@ -135,9 +134,12 @@ int main() {
 		resize(imge, img, Size(64, 64));
 		packTrainData(img, label,counter++);
 	}
+	cout << "加载训练集完毕!" << endl;
+	cout << "开始训练........." <<endl;
 	myNeuralNetwork ann;
 	ann.initialNN();
 	ann.train(Data, Label);
+	cout << "训练完成！" << endl;
 #endif
 #ifdef TEST
 	ifstream test_in("testpath.txt");
@@ -146,6 +148,8 @@ int main() {
 	int counter = 0;
 	int wrong = 0;
 	string carlog[5] = { "雪铁龙","大众","一汽","福田","本田" };
+	cout << "开始测试..." << endl;
+	cout << "进度: 0.00%";
 	while (test_in >> ss) {
 		// 获取label
 		vector<string> fp = split(ss, '/');
@@ -164,9 +168,18 @@ int main() {
 		if (predict_label != true_label)
 			wrong++;
 		counter++;
-		cout << carlog[true_label] << "   被识别为了  " << carlog[predict_label] << endl;
-	}
+		cout<<"\r进度: "<< setprecision(2) << fixed << counter*1.0 / 5 << "%" ;
 
+		
+	}
+	cout << endl;
+	cout << "----------------------" << endl;
+	cout << "测试结果" << endl;
+	cout << "----------------------" << endl;
+	cout << "目标数目：" << counter << endl;
+	cout << "正确个数：" << counter-wrong << endl;
+	cout << "正确率：" << setprecision(2)<<fixed<<(counter-wrong)*1.0/counter*100 <<"%"<< endl;
+	cout << "----------------------" << endl;
 #endif
 	system("pause");
 	return 0;
