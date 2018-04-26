@@ -1,13 +1,20 @@
 # carLogoRec
 
-2018.4.18已更新逻辑回归模块
-2018.4.20已更新OpenCV自带BP网路模块
+2018.4.18已更新逻辑回归模块  
+
+2018.4.20已更新OpenCV自带BP网路模块    
+
+2018.4.26已更新手撸BP模块
+
+
 
 ## 模块列表
 
-- Opencv自带BP网络+HOG
-- Logistic Regression  content/LR
-- 全局函数
+- Opencv自带BP网络+HOG  
+
+
+- Logistic Regression  content/LR  
+- 全局函数  
 
 ## 1. opencv自带BP网络+Hog特征识别车标
 
