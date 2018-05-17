@@ -120,7 +120,7 @@ if __name__=='__main__':
 
     # build model
     model_params = nn_model(input_zise=train_X.shape[0])
-   # costs, params = optimize(train_X, train_Y, model_params, n_epochs = 100, learning_rate = 0.1 )
-   # pickle.dump(params, open('nn_params.data','wb'))
+    costs, params = optimize(train_X, train_Y, model_params, n_epochs = 200, learning_rate = 0.1 )
+    pickle.dump(params, open('nn_params.data','wb'))
     params = pickle.load(open('nn_params.data','rb'))
     evaluate(params, test_X, test_Y_org)
