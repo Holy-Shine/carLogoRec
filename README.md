@@ -1,10 +1,12 @@
 # carLogoRec
 
-2018.4.18已更新逻辑回归模块  
+2018.4.18更新逻辑回归模块  
 
-2018.4.20已更新OpenCV自带BP网路模块    
+2018.4.20更新OpenCV自带BP网路模块    
 
-2018.4.26已更新手撸BP模块
+2018.4.26更新手撸BP模块  
+
+2018.8.08更新LeNet-5-based CNN模块(使用Pytorch)
 
 
 
@@ -15,6 +17,7 @@
 
 - Logistic Regression  content/LR  
 - 全局函数  
+- CNN_pytorch
 
 ## 1. opencv自带BP网络+Hog特征识别车标
 
@@ -148,6 +151,72 @@ LR分类器构建与识别，函数层级如下
 - `data['train_Y']`：训练集标签
 - `data['test_X']`：测试集
 - `data['test_Y']`：测试集标签
+
+
+
+## 3. CNN_LeNet5
+
+### 3.1 模型结构
+
+首先看下LeNet5的结构：
+
+<img src='https://markdownfoto-1252952266.cos.ap-guangzhou.myqcloud.com/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/lenet5.jpg' width=100%>
+
+最初这个模型是Yann LeCun 用来做一个手写体识别的task。由于模型简单计算量小，这里非常适合我们的车标数据集。
+
+### 3.2 数据集处理
+
+使用python 模块 h5py 处理了下数据集，使得数据集由车标的灰度图像素组成。  
+
+使用下面的代码可以查看任意一张训练集或者测试集的图(调用`data_utils`里的函数)
+
+```python
+from data_utils import showImage
+import h5py
+dataset=h5py.File('carDatasets.h5','r')
+showImage(dataset=dataset,label='train_X',index=10)
+```
+
+如果是查看测试集，则`label='test_X'` ，另外确保index不超出范围(训练集1000图，测试集500图)
+
+下面是结果示例：
+
+<img src='https://markdownfoto-1252952266.cos.ap-guangzhou.myqcloud.com/Github/readme1.PNG'>
+
+**注：** 从左到右依次是 雪铁龙、大众、一汽、福田、本田
+
+
+
+### 3.3 快速开始
+
+**训练模型**:
+
+```python
+from model.cnn_lenet5 import *
+model =LeNet5()
+train(model,num_epoch=10,batch_size=16,learning_rate=0.01,save=False)
+```
+
+save参数用来决定模型参数是否存储到`./ModelParams`文件夹下，该文件夹下有已训练好的参数文件
+
+**加载模型**:
+
+```python
+model=LeNet5()
+model=loadModel(model)
+```
+
+则会自动加载文件夹下的参数。
+
+**预测一张图片**:
+
+`imgSample`文件夹下有几种车标的样例，根据输入的文件名可以预测图片所属车标：
+
+```python
+predict(model,img_path='../imgSample/Honda_sample.jpg')
+```
+
+
 
 最后感谢大家的耐心，能看完这个简单的document。如果这个简单的工程对你有帮助，还望大家不吝惜右上角的star喔
 

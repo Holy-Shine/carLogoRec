@@ -22,7 +22,7 @@ testPaths = [
 
 
 
-def create_dataset():
+def create_dataset(size=32):
     '''
     Model the datasets
 
@@ -34,41 +34,41 @@ def create_dataset():
     dataset = h5py.File('carDatasets.h5', 'w')
     # train data
     ## sample 1000
-    ## size: resize to 45x45=2025
-    train_X = np.zeros(shape=(1000, 45*45*3),dtype=float)
+    ## size: resize to size x size 
+    train_X = np.zeros(shape=(1000, size*size),dtype=float)
     train_Y = np.zeros(shape=(1, 1000),dtype=float)
     count = 0
     for trainpath in trainPaths:
         for img in [file for file in os.listdir(trainpath) if re.match(pattern,file)]:
             img_path = trainpath+os.sep+img
-            img_obj = Image.open(img_path).convert('RGB').resize((45,45),Image.ANTIALIAS)
-            img_array = np.array(img_obj, dtype=np.uint8).reshape((1,45*45*3))
+            img_obj = Image.open(img_path).resize((size,size)).convert('L')
+            img_array = np.asarray(img_obj).reshape((1,size*size))
             train_X[count]=img_array
-            train_Y[0][count]=float(trainpath[-1])
+            train_Y[0][count]=int(trainpath[-1])
             count+=1
-    dataset.create_dataset('train_X', data=train_X.T)
+    dataset.create_dataset('train_X', data=train_X)
     dataset.create_dataset('train_Y', data=train_Y)
 
     # test data
     ## sample 500
-    ## size: resize to 45x45=2025
-    test_X = np.zeros(shape=(500, 45*45*3),dtype=float)
+    ## size: resize to sizexsize=2025
+    test_X = np.zeros(shape=(500, size*size),dtype=float)
     test_Y = np.zeros(shape=(1, 500),dtype=float)
     count = 0
     for testpath in testPaths:
         for img in [file for file in os.listdir(testpath) if re.match(pattern,file)]:
             img_path = testpath+os.sep+img
-            img_obj = Image.open(img_path).convert('RGB').resize((45,45),Image.ANTIALIAS)
-            img_array = np.array(img_obj, dtype=np.uint8).reshape((1,45*45*3))
+            img_obj = Image.open(img_path).resize((size,size)).convert('L')
+            img_array = np.asarray(img_obj).reshape((1,size*size))
             test_X[count]=img_array
             test_Y[0][count]=float(testpath[-1])
             count+=1
-    dataset.create_dataset('test_X', data=test_X.T)
+    dataset.create_dataset('test_X', data=test_X)
     dataset.create_dataset('test_Y', data=test_Y)
     dataset.close()
 
 if __name__=='__main__':
-    #create_dataset()
+    create_dataset()
     f = h5py.File('carDatasets.h5','r')
     train_X = np.array(f['test_Y'][:])
     print(train_X)
