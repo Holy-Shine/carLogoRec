@@ -28,10 +28,10 @@ class LeNet5(nn.Module):
         
     def forward(self,input):
         feature_map1 = self.conv1(input)
-        pooled_map1 = self.pool2(feature_map1)
+        pooled_map1 = self.pool2(F.relu(feature_map1))
         
         feature_map2 = self.conv3(pooled_map1)
-        pooled_map2 = self.pool4(feature_map2)
+        pooled_map2 = self.pool4(F.relu(feature_map2))
         
         fc1 = F.relu(self.fc1(pooled_map2.view(-1,16*5*5)))
         fc2 = F.relu(self.fc2(fc1))
