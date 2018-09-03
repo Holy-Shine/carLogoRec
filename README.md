@@ -216,7 +216,7 @@ model=loadModel(model)
 `imgSample`文件夹下有几种车标的样例，根据输入的文件名可以预测图片所属车标：
 
 ```python
-predict(model,img_path='../imgSample/Honda_sample.jpg')
+predict(model,img_path='./imgSample/Honda_sample.jpg')
 ```
 
 
