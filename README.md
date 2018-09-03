@@ -223,3 +223,9 @@ predict(model,img_path='./imgSample/Honda_sample.jpg')
 
 最后感谢大家的耐心，能看完这个简单的document。如果这个简单的工程对你有帮助，还望大家不吝惜右上角的star喔
 
+## 友情赞助
+
+觉得好用的小伙伴支付宝扫一扫下面的二维码领红包喔【顺便赏作者一口汤喝ww】。
+
+<img src='https://markdownfoto-1252952266.cos.ap-guangzhou.myqcloud.com/usual/TIM%E5%9B%BE%E7%89%8720180903135402.png' width=40%>
+
