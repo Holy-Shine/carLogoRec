@@ -8,17 +8,17 @@ import pickle as pkl
 import h5py
 
 
-dataset = h5py.File('../carDatasets.h5', 'r')
+dataset = h5py.File('./carDatasets.h5', 'r')
 
 class LeNet5(nn.Module):
     def __init__(self,n_classes=5):
         super(LeNet5, self).__init__()
         # C1, S2   (1,32,32)-->(6,28,28)-->(6,14,14)
-        self.conv1 = nn.Conv2d(in_channels=1,out_channels=6,kernel_size=(4,4),stride=1,padding=0)
+        self.conv1 = nn.Conv2d(in_channels=1,out_channels=6,kernel_size=(5,5),stride=1,padding=0)
         self.pool2 = nn.MaxPool2d(kernel_size=2)
         
         # C3, S4   (6,14,14)-->(16,10,10)-->(16,5,5)
-        self.conv3 = nn.Conv2d(in_channels=6,out_channels=16,kernel_size=4,stride=1,padding=0)
+        self.conv3 = nn.Conv2d(in_channels=6,out_channels=16,kernel_size=5,stride=1,padding=0)
         self.pool4 = nn.MaxPool2d(kernel_size=2)
         
         # C5, F6   (16,5,5)-->()  (N,Cin,Hin,Win) ,
@@ -35,7 +35,7 @@ class LeNet5(nn.Module):
         
         fc1 = F.relu(self.fc1(pooled_map2.view(-1,16*5*5)))
         fc2 = F.relu(self.fc2(fc1))
-        out = F.log_softmax(self.fc3(fc2))
+        out = F.log_softmax(self.fc3(fc2),dim=1)
         return out
         
         
@@ -92,10 +92,10 @@ def train(model,num_epoch=10,batch_size=16,learning_rate=0.01,save=False):
 
 # 存取模型
 def saveModel(model):
-    torch.save(model.state_dict(), '../ModelParams/cnn_lenet5.pkl')
+    torch.save(model.state_dict(), './ModelParams/cnn_lenet5.pkl')
 
 def loadModel(model):
-    model.load_state_dict(torch.load('../ModelParams/cnn_lenet5.pkl'))
+    model.load_state_dict(torch.load('./ModelParams/cnn_lenet5.pkl'))
     return model
 
 def predict(model, img_path=None):
@@ -109,9 +109,9 @@ def predict(model, img_path=None):
         label = torch.argmax(out,dim=1).item()
         print('这个车标是：%s'%labels[label])
 
-model =LeNet5()
+#model =LeNet5()
 #train(model,save=True)
-model=loadModel(model)
-predict(model,img_path='../imgSample/Honda_sample.jpg')
+#model=loadModel(model)
+#predict(model,img_path='./imgSample/Honda_sample.jpg')
 
 

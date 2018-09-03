@@ -175,6 +175,7 @@ from data_utils import showImage
 import h5py
 dataset=h5py.File('carDatasets.h5','r')
 showImage(dataset=dataset,label='train_X',index=10)
+dataset.close()
 ```
 
 如果是查看测试集，则`label='test_X'` ，另外确保index不超出范围(训练集1000图，测试集500图)
@@ -189,10 +190,12 @@ showImage(dataset=dataset,label='train_X',index=10)
 
 ### 3.3 快速开始
 
+首先确保working directory 在carLogoRec\CNN_Pytorch\下
+
 **训练模型**:
 
 ```python
-from model.cnn_lenet5 import *
+from cnn_lenet5 import *
 model =LeNet5()
 train(model,num_epoch=10,batch_size=16,learning_rate=0.01,save=False)
 ```
