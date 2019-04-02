@@ -1,3 +1,5 @@
+<a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg"></a><a href='https://opencv.org/'><img src='https://img.shields.io/badge/opencv-2.4.11-blue.svg'></a><a href='https://pytorch.org/'><img src='https://img.shields.io/badge/PyTorch-0.4.0-blue.svg'></a>
+
 # carLogoRec
 
 2018.4.18更新逻辑回归模块  
@@ -222,6 +224,12 @@ predict(model,img_path='./imgSample/Honda_sample.jpg')
 
 
 最后感谢大家的耐心，能看完这个简单的document。如果这个简单的工程对你有帮助，还望大家不吝惜右上角的star喔
+
+
+
+## 许可
+
+Licensed  [`996ICU License`](https://github.com/996icu/996.ICU/blob/master/LICENSE).
 
 
 
