@@ -1,4 +1,4 @@
-<a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg"></a>  <a href='https://opencv.org/'><img src='https://img.shields.io/badge/opencv-2.4.11-blue.svg'></a>   <a href='https://pytorch.org/'><img src='https://img.shields.io/badge/PyTorch-0.4.0-blue.svg'></a> [![HitCount](http://hits.dwyl.io/Holy-Shine/carLogoRec.svg)](http://hits.dwyl.io/Holy-Shine/carLogoRec)
+<a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg?style=flat-square"></a>  <a href='https://opencv.org/'><img src='https://img.shields.io/badge/opencv-2.4.11-blue.svg?style=flat-square'></a>  <a href='https://pytorch.org/'><img src='https://img.shields.io/badge/PyTorch-0.4.0-blue.svg?style=flat-square'></a>  [![HitCount](http://hits.dwyl.io/Holy-Shine/carLogoRec.svg)](http://hits.dwyl.io/Holy-Shine/carLogoRec)
 
 # carLogoRec
 
